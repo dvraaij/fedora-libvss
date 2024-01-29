@@ -1,0 +1,26 @@
+--- a/Makefile
++++ b/Makefile
+@@ -59,15 +59,15 @@
+ 	rm -f source/text/ucd/*.ad[sb]
+ 	gnatchop -gnat2022 .objs/ucd.ada source/text/ucd
+ 
+-build_tests:
+-	gprbuild -XVSS_LIBRARY_TYPE=static $(GPRBUILD_FLAGS) gnat/tests/vss_text_tests.gpr
+-	gprbuild -XVSS_LIBRARY_TYPE=static $(GPRBUILD_FLAGS) gnat/tests/vss_os_tests.gpr
+-	gprbuild -XVSS_LIBRARY_TYPE=static $(GPRBUILD_FLAGS) gnat/tests/vss_json_tests.gpr
+-	gprbuild -XVSS_LIBRARY_TYPE=static $(GPRBUILD_FLAGS) gnat/tests/vss_stream_tests.gpr
+-	gprbuild -XVSS_LIBRARY_TYPE=static $(GPRBUILD_FLAGS) gnat/tests/vss_regexp_tests.gpr
+-	gprbuild -XVSS_LIBRARY_TYPE=static -XXMLADA_BUILD=static $(GPRBUILD_FLAGS) gnat/tests/vss_html_tests.gpr
++build-tests-%:
++	gprbuild -XVSS_LIBRARY_TYPE=$* $(GPRBUILD_FLAGS) gnat/tests/vss_text_tests.gpr
++	gprbuild -XVSS_LIBRARY_TYPE=$* $(GPRBUILD_FLAGS) gnat/tests/vss_os_tests.gpr
++	gprbuild -XVSS_LIBRARY_TYPE=$* $(GPRBUILD_FLAGS) gnat/tests/vss_json_tests.gpr
++	gprbuild -XVSS_LIBRARY_TYPE=$* $(GPRBUILD_FLAGS) gnat/tests/vss_stream_tests.gpr
++	gprbuild -XVSS_LIBRARY_TYPE=$* $(GPRBUILD_FLAGS) gnat/tests/vss_regexp_tests.gpr
++	gprbuild -XVSS_LIBRARY_TYPE=$* -XXMLADA_BUILD=$* $(GPRBUILD_FLAGS) gnat/tests/vss_html_tests.gpr
+ 
+-check: build_tests check_text check_json check_regexp check_html
++check: build-tests-relocatable check_text check_json check_regexp check_html
+ 
+ check_text:
+ 	.objs/tests/test_characters data/ucd

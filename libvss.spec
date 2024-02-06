@@ -56,6 +56,11 @@ Patch:          %{name}-build-tests-relocatable.patch
 # Build only on architectures where GPRbuild is available.
 ExclusiveArch:  %{GPRbuild_arches}
 
+# Compilation of `a-suvsau.adb` and `a-szuvau.adb` fails on GCC 14.0.1 for
+# s390x. References parent package are not visible. Seems like a bug in the
+# GNAT front-end (non-deterministic behavior across platforms).
+ExcludeArch:    s390x
+
 %global common_description_en \
 The VSS (as an abbreviation for Virtual String Subsystem) library is \
 designed to provide advanced string and text processing capabilities. It \
